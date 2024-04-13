@@ -1,7 +1,7 @@
 package guru.springframework.spring6restmvc.services.impl;
 
-import guru.springframework.spring6restmvc.models.Beer;
-import guru.springframework.spring6restmvc.models.BeerStyle;
+import guru.springframework.spring6restmvc.models.beers.Beer;
+import guru.springframework.spring6restmvc.models.beers.BeerStyle;
 import guru.springframework.spring6restmvc.services.BeerService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -14,11 +14,9 @@ import java.util.*;
 @Service
 public class BeerServiceImpl implements BeerService {
 
-    private Map<UUID, Beer> beerMap;
+    private final Map<UUID, Beer> beerMap;
 
     public BeerServiceImpl() {
-
-        this.beerMap = new HashMap<>();
 
         Beer beer1 = Beer.builder()
                 .id(UUID.randomUUID())
@@ -56,19 +54,21 @@ public class BeerServiceImpl implements BeerService {
                 .updateDate(LocalDateTime.now())
                 .build();
 
+        this.beerMap = new HashMap<>();
         beerMap.put(beer1.getId(), beer1);
         beerMap.put(beer2.getId(), beer2);
         beerMap.put(beer3.getId(), beer3);
     }
 
     @Override
-    public List<Beer> listBeers(){
+    public List<Beer> listAllBeers(){
+        log.debug("Get Beer List - in service.");
         return new ArrayList<>(beerMap.values());
     }
 
     @Override
-    public Beer getBerrById(UUID id) {
-        log.debug("Get Beer by Id - in service. Id: " + id.toString());
-        return beerMap.get(id);
+    public Beer getBeerById(UUID uuid) {
+        log.debug("Get Beer by Id - in service. Id: " + uuid.toString());
+        return beerMap.get(uuid);
     }
 }

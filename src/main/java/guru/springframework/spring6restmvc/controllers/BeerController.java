@@ -1,6 +1,6 @@
 package guru.springframework.spring6restmvc.controllers;
 
-import guru.springframework.spring6restmvc.models.Beer;
+import guru.springframework.spring6restmvc.models.beers.Beer;
 import guru.springframework.spring6restmvc.services.BeerService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,14 +21,14 @@ public class BeerController {
     private final BeerService beerService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<Beer> getBeers() {
+    public List<Beer> getAllBeers() {
         log.debug("Get Beer List - in controller");
-        return beerService.listBeers();
+        return beerService.listAllBeers();
     }
 
     @RequestMapping(value = "/{beerId}", method = RequestMethod.GET)
     public Beer getBeerById(@PathVariable UUID beerId) {
         log.debug("Get Beer by Id - in controller");
-        return beerService.getBerrById(beerId);
+        return beerService.getBeerById(beerId);
     }
 }
