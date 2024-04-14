@@ -68,6 +68,8 @@ public class BeerServiceImpl implements BeerService {
 
     @Override
     public Beer saveNewBeer(Beer beer) {
+        log.debug("Saving new Beer - in service.");
+
         Beer savedBeer = Beer.builder()
                 .id(UUID.randomUUID())
                 .beerName(beer.getBeerName())
