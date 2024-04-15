@@ -61,15 +61,7 @@ class CustomerControllerTest {
 
     @Test
     void testPatchCustomerById() throws Exception {
-        Customer customer = customerServiceImpl.listAllCustomers().get(0);
 
-        mockMvc.perform(put("/api/v1/customer/" + customer.getId())
-                .accept(MediaType.APPLICATION_JSON)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(customer)))
-                .andExpect(status().isNoContent());
-
-        verify(customerService).updateCustomerById(any(UUID.class), any(Customer.class));
     }
 
     @Test
@@ -87,7 +79,16 @@ class CustomerControllerTest {
     }
 
     @Test
-    void testUpdateCustomerById() {
+    void testUpdateCustomerById() throws Exception {
+        Customer customer = customerServiceImpl.listAllCustomers().get(0);
+
+        mockMvc.perform(put("/api/v1/customer/" + customer.getId())
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(customer)))
+                .andExpect(status().isNoContent());
+
+        verify(customerService).updateCustomerById(any(UUID.class), any(Customer.class));
     }
 
     @Test
