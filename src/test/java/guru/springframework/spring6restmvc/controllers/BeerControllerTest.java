@@ -57,7 +57,7 @@ class BeerControllerTest {
     }
 
     @Test
-    void getBeerById() throws Exception {
+    void testGetBeerById() throws Exception {
         Beer testBeer = beerServiceImpl.listAllBeers().get(0);
 
         given(beerService.getBeerById(testBeer.getId())).willReturn(testBeer);
@@ -70,41 +70,37 @@ class BeerControllerTest {
     }
 
     @Test
-    void patchBeerById() throws Exception {
+    void testPatchBeerById() throws Exception {
         Beer beer = beerServiceImpl.listAllBeers().get(0);
 
         mockMvc.perform(put("/api/v1/beer/" + beer.getId())
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
-                .accept(objectMapper.writeValueAsString(beer)))
+                .content(objectMapper.writeValueAsString(beer)))
                 .andExpect(status().isNoContent());
 
         verify(beerService).updateBeerById(any(UUID.class), any(Beer.class));
     }
 
     @Test
-    void deleteBeerById() {
+    void testDeleteBeerById() {
     }
 
     @Test
-    void updateById() {
+    void testUpdateById() {
     }
 
     @Test
-    void insertBeer() {
+    void testInsertBeer() {
     }
 
     @Test
-    void getAllBeers() throws Exception {
+    void testGetAllBeers() throws Exception {
         given(beerService.listAllBeers()).willReturn(beerServiceImpl.listAllBeers());
 
         mockMvc.perform(get("/api/v1/beer").accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.length()", is(3)));
-    }
-
-    @Test
-    void testGetBeerById() {
     }
 }
