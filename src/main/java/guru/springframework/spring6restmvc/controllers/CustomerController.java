@@ -62,7 +62,7 @@ public class CustomerController {
     }
 
     @RequestMapping(value = "/{customerId}", method = RequestMethod.GET)
-    public Customer getCustomerId(@PathVariable UUID customerId) {
+    public Customer getCustomerById(@PathVariable UUID customerId) {
         log.debug("Get Customer by Id - in controller");
         return customerService.getCustomerById(customerId);
     }
