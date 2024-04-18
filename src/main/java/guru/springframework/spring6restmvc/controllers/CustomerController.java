@@ -26,7 +26,10 @@ public class CustomerController {
     @PatchMapping(CUSTOMER_PATH_ID)
     public ResponseEntity patchCustomerById(@PathVariable UUID customerId, @RequestBody CustomerDTO customer) {
         log.debug("Patch customer by Id - in controller");
-        customerService.patchCustomerById(customerId, customer);
+
+        if (customerService.patchCustomerById(customerId, customer).isEmpty()) {
+            throw new NotFoundException();
+        }
 
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
@@ -34,7 +37,10 @@ public class CustomerController {
     @DeleteMapping(CUSTOMER_PATH_ID)
     public ResponseEntity deleteCustomerById(@PathVariable UUID customerId) {
         log.debug("Delete customer by Id - in controller");
-        customerService.deleteCustomerById(customerId);
+
+        if (!customerService.deleteCustomerById(customerId)) {
+            throw new NotFoundException();
+        }
 
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
