@@ -1,5 +1,6 @@
 package guru.springframework.spring6restmvc.services.impl;
 
+import guru.springframework.spring6restmvc.entities.BeerEntity;
 import guru.springframework.spring6restmvc.mappers.BeerMapper;
 import guru.springframework.spring6restmvc.models.beers.BeerDTO;
 import guru.springframework.spring6restmvc.repositories.BeerRepository;
@@ -38,7 +39,7 @@ public class BeerServiceJPA implements BeerService {
 
     @Override
     public BeerDTO saveNewBeer(BeerDTO beer) {
-        return null;
+        return beerMapper.beerEntityToBeerDto(beerRepository.save(beerMapper.beerDtoToBeerEntity(beer)));
     }
 
     @Override
