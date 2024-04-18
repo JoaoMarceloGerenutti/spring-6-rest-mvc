@@ -34,6 +34,15 @@ class BeerControllerIntegrationTest {
     @Rollback
     @Transactional
     @Test
+    void testUpdateNotFound() {
+        assertThrows(NotFoundException.class, () -> {
+            beerController.updateBeerById(UUID.randomUUID(), BeerDTO.builder().build());
+        });
+    }
+
+    @Rollback
+    @Transactional
+    @Test
     void testUpdateExistingBeer() {
         BeerEntity beer = beerRepository.findAll().get(0);
         BeerDTO beerDTO = beerMapper.beerEntityToBeerDto(beer);
@@ -43,13 +52,12 @@ class BeerControllerIntegrationTest {
         final String beerName = "UPDATED";
         beerDTO.setBeerName(beerName);
 
-        ResponseEntity responseEntity = beerController.updateById(beer.getId(), beerDTO);
+        ResponseEntity responseEntity = beerController.updateBeerById(beer.getId(), beerDTO);
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(204));
 
         BeerEntity updatedBeer = beerRepository.findById(beer.getId()).get();
         assertThat(updatedBeer.getBeerName()).isEqualTo(beerName);
     }
-
 
     @Rollback
     @Transactional

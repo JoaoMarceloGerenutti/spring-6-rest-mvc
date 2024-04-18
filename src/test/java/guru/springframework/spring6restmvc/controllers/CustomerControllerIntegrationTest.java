@@ -31,6 +31,17 @@ class CustomerControllerIntegrationTest {
     @Autowired
     CustomerMapper customerMapper;
 
+    @Rollback
+    @Transactional
+    @Test
+    void testUpdateNotFound() {
+        assertThrows(NotFoundException.class, () -> {
+            customerController.updateCustomerById(UUID.randomUUID(), CustomerDTO.builder().build());
+        });
+    }
+
+    @Rollback
+    @Transactional
     @Test
     void testUpdateExistingCustomer() {
         CustomerEntity customer = customerRepository.findAll().get(0);
