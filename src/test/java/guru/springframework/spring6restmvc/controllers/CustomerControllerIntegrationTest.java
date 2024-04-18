@@ -2,6 +2,7 @@ package guru.springframework.spring6restmvc.controllers;
 
 import guru.springframework.spring6restmvc.entities.CustomerEntity;
 import guru.springframework.spring6restmvc.exceptions.NotFoundException;
+import guru.springframework.spring6restmvc.mappers.CustomerMapper;
 import guru.springframework.spring6restmvc.models.customers.CustomerDTO;
 import guru.springframework.spring6restmvc.repositories.CustomerRepository;
 import org.junit.jupiter.api.Test;
@@ -26,6 +27,26 @@ class CustomerControllerIntegrationTest {
 
     @Autowired
     CustomerRepository customerRepository;
+
+    @Autowired
+    CustomerMapper customerMapper;
+
+    @Test
+    void testUpdateExistingCustomer() {
+        CustomerEntity customer = customerRepository.findAll().get(0);
+        CustomerDTO customerDTO = customerMapper.customerEntityToCustomerDto(customer);
+        customerDTO.setId(null);
+        customerDTO.setVersion(null);
+
+        final String customerName = "UPDATED";
+        customerDTO.setName(customerName);
+
+        ResponseEntity responseEntity = customerController.updateCustomerById(customer.getId(), customerDTO);
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(204));
+
+        CustomerEntity updatedCustomer = customerRepository.findById(customer.getId()).get();
+        assertThat(updatedCustomer.getName()).isEqualTo(customerName);
+    }
 
     @Rollback
     @Transactional
