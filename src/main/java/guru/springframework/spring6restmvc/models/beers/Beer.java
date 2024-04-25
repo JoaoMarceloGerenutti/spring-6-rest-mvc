@@ -1,4 +1,4 @@
-package guru.springframework.spring6restmvc.models;
+package guru.springframework.spring6restmvc.models.beers;
 
 import lombok.Builder;
 import lombok.Data;
