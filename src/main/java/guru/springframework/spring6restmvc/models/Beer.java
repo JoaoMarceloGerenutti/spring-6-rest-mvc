@@ -10,7 +10,7 @@ import java.util.UUID;
 @Builder
 @Data
 public class Beer {
-
+ 
     private UUID id;
     private Integer version;
     private String beerName;
