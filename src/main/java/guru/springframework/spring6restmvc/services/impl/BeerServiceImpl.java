@@ -88,7 +88,7 @@ public class BeerServiceImpl implements BeerService {
 
     @Override
     public void updateBeerById(UUID beerId, Beer beer) {
-        log.debug("Updating Beer - in service.");
+        log.debug("Updating Beer by Id - in service. Id: " + beerId.toString());
 
         Beer existing = beerMap.get(beerId);
         existing.setBeerName(beer.getBeerName());
@@ -100,6 +100,13 @@ public class BeerServiceImpl implements BeerService {
         existing.setUpdateDate(LocalDateTime.now());
 
         beerMap.put(existing.getId(), existing);
+    }
+
+    @Override
+    public void deleteBeerById(UUID beerId) {
+        log.debug("Deleting Beer by Id - in service. Id: " + beerId.toString());
+
+        beerMap.remove(beerId);
     }
 
     @Override
