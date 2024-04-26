@@ -57,4 +57,20 @@ public class CustomerServiceImpl implements CustomerService {
         log.debug("Get Customer List - in service.");
         return new ArrayList<>(customerMap.values());
     }
+
+    @Override
+    public Customer saveNewCustomer(Customer customer) {
+        log.debug("Saving new Customer - in service.");
+
+        Customer savedCustomer = Customer.builder()
+                .id(UUID.randomUUID())
+                .name(customer.getName())
+                .version(customer.getVersion())
+                .createdDate(LocalDateTime.now())
+                .updateDate(LocalDateTime.now())
+                .build();
+
+        customerMap.put(savedCustomer.getId(), savedCustomer);
+        return savedCustomer;
+    }
 }
