@@ -4,6 +4,7 @@ import guru.springframework.spring6restmvc.models.customers.Customer;
 import guru.springframework.spring6restmvc.services.CustomerService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -90,5 +91,21 @@ public class CustomerServiceImpl implements CustomerService {
     public void deleteCustomerById(UUID customerId) {
         log.debug("Deleting Customer by Id - in service. Id: " + customerId.toString());
         customerMap.remove(customerId);
+    }
+
+    @Override
+    public void patchCustomerById(UUID customerId, Customer customer) {
+        log.debug("Patch Customer by Id - in service. Id: " + customerId.toString());
+        Customer existing = customerMap.get(customerId);
+
+        if (StringUtils.hasText(customer.getName())) {
+            existing.setName(customer.getName());
+        }
+
+        if (customer.getVersion() != null) {
+            existing.setVersion(customer.getVersion());
+        }
+
+        existing.setUpdateDate(LocalDateTime.now());
     }
 }
