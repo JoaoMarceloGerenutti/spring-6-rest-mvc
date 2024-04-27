@@ -1,6 +1,5 @@
 package guru.springframework.spring6restmvc.controllers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import guru.springframework.spring6restmvc.models.customers.Customer;
 import guru.springframework.spring6restmvc.services.CustomerService;
@@ -13,11 +12,13 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.UUID;
+
 import static org.hamcrest.core.Is.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.mockito.Mockito.verify;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(CustomerController.class)
@@ -57,23 +58,32 @@ class CustomerControllerTest {
     }
 
     @Test
-    void patchCustomerById() {
+    void testPatchCustomerById() throws Exception {
+        Customer customer = customerServiceImpl.listAllCustomers().get(0);
+
+        mockMvc.perform(put("/api/v1/customer/" + customer.getId())
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(customer)))
+                .andExpect(status().isNoContent());
+
+        verify(customerService).updateCustomerById(any(UUID.class), any(Customer.class));
     }
 
     @Test
-    void deleteCustomerById() {
+    void testDeleteCustomerById() {
     }
 
     @Test
-    void updateCustomerById() {
+    void testUpdateCustomerById() {
     }
 
     @Test
-    void insertCustomer() {
+    void testInsertCustomer() {
     }
 
     @Test
-    void getAllCustomers() throws Exception {
+    void testGetAllCustomers() throws Exception {
         given(customerService.listAllCustomers()).willReturn(customerServiceImpl.listAllCustomers());
 
         mockMvc.perform(get("/api/v1/customer").accept(MediaType.APPLICATION_JSON))
@@ -83,7 +93,7 @@ class CustomerControllerTest {
     }
 
     @Test
-    void getCustomerById() throws Exception {
+    void testGetCustomerById() throws Exception {
         Customer testCustomer = customerServiceImpl.listAllCustomers().get(0);
 
         given(customerService.getCustomerById(testCustomer.getId())).willReturn(testCustomer);
