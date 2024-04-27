@@ -27,12 +27,7 @@ class BeerControllerTest {
     BeerServiceImpl beerServiceImpl = new BeerServiceImpl();
 
     @Test
-    void getBeerById() {
-
-    }
-
-    @Test
-    void patchBeerById() throws Exception {
+    void getBeerById() throws Exception {
         Beer testBeer = beerServiceImpl.listAllBeers().get(0);
 
         given(beerService.getBeerById(testBeer.getId())).willReturn(testBeer);
@@ -42,6 +37,11 @@ class BeerControllerTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.id", is(testBeer.getId().toString())))
                 .andExpect(jsonPath("$.beerName", is(testBeer.getBeerName())));
+    }
+
+    @Test
+    void patchBeerById() {
+
     }
 
     @Test
