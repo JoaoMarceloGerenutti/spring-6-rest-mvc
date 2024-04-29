@@ -70,7 +70,7 @@ class BeerControllerTest {
     }
 
     @Test
-    void testGetBeerByIDNotFound() throws Exception {
+    void testGetBeerByIdNotFound() throws Exception {
 
         given(beerService.getBeerById(any(UUID.class))).willThrow(NotFoundException.class);
 
