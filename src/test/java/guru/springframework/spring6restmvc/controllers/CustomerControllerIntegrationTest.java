@@ -2,12 +2,13 @@ package guru.springframework.spring6restmvc.controllers;
 
 import guru.springframework.spring6restmvc.entities.CustomerEntity;
 import guru.springframework.spring6restmvc.exceptions.NotFoundException;
-import guru.springframework.spring6restmvc.models.beers.BeerDTO;
 import guru.springframework.spring6restmvc.models.customers.CustomerDTO;
 import guru.springframework.spring6restmvc.repositories.CustomerRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +26,26 @@ class CustomerControllerIntegrationTest {
 
     @Autowired
     CustomerRepository customerRepository;
+
+    @Rollback
+    @Transactional
+    @Test
+    void testSaveNewCustomer() {
+        CustomerDTO customerDTO = CustomerDTO.builder()
+                .name("New Customer")
+                .build();
+
+        ResponseEntity responseEntity = customerController.insertCustomer(customerDTO);
+
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(201));
+        assertThat(responseEntity.getHeaders().getLocation()).isNotNull();
+
+        String[] locationUUID = responseEntity.getHeaders().getLocation().getPath().split("/");
+        UUID savedUUID = UUID.fromString(locationUUID[4]);
+
+        CustomerEntity customerEntity = customerRepository.findById(savedUUID).get();
+        assertThat(customerEntity).isNotNull();
+    }
 
     @Test
     void testGetCustomerById() {
