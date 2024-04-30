@@ -95,6 +95,8 @@ class BeerControllerTest {
     void testPatchBeerById() throws Exception {
         BeerDTO beer = beerServiceImpl.listAllBeers().get(0);
 
+        given(beerService.patchBeerById(any(), any())).willReturn(Optional.of(beer));
+
         Map<String, Object> beerMap = new HashMap<>();
         beerMap.put("beerName", "New Name");
 
@@ -113,6 +115,8 @@ class BeerControllerTest {
     @Test
     void testDeleteBeerById() throws Exception {
         BeerDTO beer = beerServiceImpl.listAllBeers().get(0);
+
+        given(beerService.deleteBeerById(any())).willReturn(true);
 
         mockMvc.perform(delete(BeerController.BEER_PATH_ID, beer.getId())
                         .accept(MediaType.APPLICATION_JSON))
@@ -136,10 +140,6 @@ class BeerControllerTest {
                 .andExpect(status().isNoContent());
 
         verify(beerService).updateBeerById(any(UUID.class), any(BeerDTO.class));
-    }
-
-    @Test
-    void testInsertBeer() {
     }
 
     @Test
