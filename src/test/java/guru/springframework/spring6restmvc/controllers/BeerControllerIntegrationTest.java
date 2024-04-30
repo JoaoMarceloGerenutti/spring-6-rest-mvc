@@ -2,6 +2,7 @@ package guru.springframework.spring6restmvc.controllers;
 
 import guru.springframework.spring6restmvc.entities.BeerEntity;
 import guru.springframework.spring6restmvc.exceptions.NotFoundException;
+import guru.springframework.spring6restmvc.mappers.BeerMapper;
 import guru.springframework.spring6restmvc.models.beers.BeerDTO;
 import guru.springframework.spring6restmvc.repositories.BeerRepository;
 import org.junit.jupiter.api.Test;
@@ -26,6 +27,29 @@ class BeerControllerIntegrationTest {
 
     @Autowired
     BeerRepository beerRepository;
+
+    @Autowired
+    BeerMapper beerMapper;
+
+    @Rollback
+    @Transactional
+    @Test
+    void testUpdateExistingBeer() {
+        BeerEntity beer = beerRepository.findAll().get(0);
+        BeerDTO beerDTO = beerMapper.beerEntityToBeerDto(beer);
+        beerDTO.setId(null);
+        beerDTO.setVersion(null);
+
+        final String beerName = "UPDATED";
+        beerDTO.setBeerName(beerName);
+
+        ResponseEntity responseEntity = beerController.updateById(beer.getId(), beerDTO);
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(204));
+
+        BeerEntity updatedBeer = beerRepository.findById(beer.getId()).get();
+        assertThat(updatedBeer.getBeerName()).isEqualTo(beerName);
+    }
+
 
     @Rollback
     @Transactional
