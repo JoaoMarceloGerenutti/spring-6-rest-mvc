@@ -61,7 +61,7 @@ public class CustomerServiceJPA implements CustomerService {
 
     @Override
     public void deleteCustomerById(UUID customerId) {
-
+        customerRepository.deleteById(customerId);
     }
 
     @Override

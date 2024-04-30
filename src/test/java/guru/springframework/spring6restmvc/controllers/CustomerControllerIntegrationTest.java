@@ -34,6 +34,18 @@ class CustomerControllerIntegrationTest {
     @Rollback
     @Transactional
     @Test
+    void testDeleteCustomerByIdNotFound() {
+        CustomerEntity customer = customerRepository.findAll().get(0);
+
+        ResponseEntity responseEntity = customerController.deleteCustomerById(customer.getId());
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(204));
+
+        assertThat(customerRepository.findById(customer.getId()).isEmpty());
+    }
+
+    @Rollback
+    @Transactional
+    @Test
     void testUpdateNotFound() {
         assertThrows(NotFoundException.class, () -> {
             customerController.updateCustomerById(UUID.randomUUID(), CustomerDTO.builder().build());
