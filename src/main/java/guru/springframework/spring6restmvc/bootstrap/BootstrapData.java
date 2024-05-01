@@ -1,7 +1,7 @@
 package guru.springframework.spring6restmvc.bootstrap;
 
-import guru.springframework.spring6restmvc.entities.BeerEntity;
-import guru.springframework.spring6restmvc.entities.CustomerEntity;
+import guru.springframework.spring6restmvc.entities.Beer;
+import guru.springframework.spring6restmvc.entities.Customer;
 import guru.springframework.spring6restmvc.models.beers.BeerStyle;
 import guru.springframework.spring6restmvc.repositories.BeerRepository;
 import guru.springframework.spring6restmvc.repositories.CustomerRepository;
@@ -31,7 +31,7 @@ public class BootstrapData implements CommandLineRunner {
     private void loadBeerData() {
 
         if (beerRepository.count() == 0) {
-            BeerEntity beer1 = BeerEntity.builder()
+            Beer beer1 = Beer.builder()
                     .id(UUID.randomUUID())
                     .version(1)
                     .beerName("Galaxy Cat")
@@ -43,7 +43,7 @@ public class BootstrapData implements CommandLineRunner {
                     .updateDate(LocalDateTime.now())
                     .build();
 
-            BeerEntity beer2 = BeerEntity.builder()
+            Beer beer2 = Beer.builder()
                     .id(UUID.randomUUID())
                     .version(1)
                     .beerName("Crank")
@@ -55,7 +55,7 @@ public class BootstrapData implements CommandLineRunner {
                     .updateDate(LocalDateTime.now())
                     .build();
 
-            BeerEntity beer3 = BeerEntity.builder()
+            Beer beer3 = Beer.builder()
                     .id(UUID.randomUUID())
                     .version(1)
                     .beerName("Sunshine City")
@@ -74,7 +74,7 @@ public class BootstrapData implements CommandLineRunner {
     private void loadCustomerData() {
 
         if (customerRepository.count() == 0) {
-            CustomerEntity customer1 = CustomerEntity.builder()
+            Customer customer1 = Customer.builder()
                     .id(UUID.randomUUID())
                     .name("Joao Marcelo")
                     .version(1)
@@ -82,7 +82,7 @@ public class BootstrapData implements CommandLineRunner {
                     .updateDate(LocalDateTime.now())
                     .build();
 
-            CustomerEntity customer2 = CustomerEntity.builder()
+            Customer customer2 = Customer.builder()
                     .id(UUID.randomUUID())
                     .name("Julia Cortizo")
                     .version(2)
@@ -90,7 +90,7 @@ public class BootstrapData implements CommandLineRunner {
                     .updateDate(LocalDateTime.now())
                     .build();
 
-            CustomerEntity customer3 = CustomerEntity.builder()
+            Customer customer3 = Customer.builder()
                     .id(UUID.randomUUID())
                     .name("Sandra Regina")
                     .version(3)

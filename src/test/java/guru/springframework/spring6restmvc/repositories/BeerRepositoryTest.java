@@ -1,6 +1,6 @@
 package guru.springframework.spring6restmvc.repositories;
 
-import guru.springframework.spring6restmvc.entities.BeerEntity;
+import guru.springframework.spring6restmvc.entities.Beer;
 import guru.springframework.spring6restmvc.models.beers.BeerStyle;
 import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.Test;
@@ -22,7 +22,7 @@ class BeerRepositoryTest {
     void testSaveBeerNameTooLong() {
 
         assertThrows(ConstraintViolationException.class, () -> {
-            beerRepository.save(BeerEntity.builder()
+            beerRepository.save(Beer.builder()
                 .beerName("New Beer with more than 50 characters in name that will return a column length error")
                 .beerStyle(BeerStyle.PALE_ALE)
                 .upc("21311241")
@@ -35,7 +35,7 @@ class BeerRepositoryTest {
 
     @Test
     void testSaveBeer() {
-        BeerEntity savedBeer = beerRepository.save(BeerEntity.builder()
+        Beer savedBeer = beerRepository.save(Beer.builder()
                         .beerName("New Beer")
                         .beerStyle(BeerStyle.PALE_ALE)
                         .upc("21311241")

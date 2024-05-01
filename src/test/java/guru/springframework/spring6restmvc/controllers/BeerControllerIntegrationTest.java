@@ -1,7 +1,7 @@
 package guru.springframework.spring6restmvc.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import guru.springframework.spring6restmvc.entities.BeerEntity;
+import guru.springframework.spring6restmvc.entities.Beer;
 import guru.springframework.spring6restmvc.exceptions.NotFoundException;
 import guru.springframework.spring6restmvc.mappers.BeerMapper;
 import guru.springframework.spring6restmvc.models.beers.BeerDTO;
@@ -59,7 +59,7 @@ class BeerControllerIntegrationTest {
 
     @Test
     void testPatchBeerByIdBadName() throws Exception {
-        BeerEntity beer = beerRepository.findAll().get(0);
+        Beer beer = beerRepository.findAll().get(0);
 
         Map<String, Object> beerMap = new HashMap<>();
         beerMap.put("beerName", "New Beer with more than 50 characters in name that will return a column length error");
@@ -88,7 +88,7 @@ class BeerControllerIntegrationTest {
     @Transactional
     @Test
     void testPatchBeerByIdFound() {
-        BeerEntity beer = beerRepository.findAll().get(0);
+        Beer beer = beerRepository.findAll().get(0);
         BeerDTO beerDTO = beerMapper.beerEntityToBeerDto(beer);
         beerDTO.setId(null);
         beerDTO.setVersion(null);
@@ -99,7 +99,7 @@ class BeerControllerIntegrationTest {
         ResponseEntity responseEntity = beerController.patchBeerById(beer.getId(), beerDTO);
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(204));
 
-        BeerEntity updatedBeer = beerRepository.findById(beer.getId()).get();
+        Beer updatedBeer = beerRepository.findById(beer.getId()).get();
         assertThat(updatedBeer.getBeerName()).isEqualTo(beerName);
     }
 
@@ -116,7 +116,7 @@ class BeerControllerIntegrationTest {
     @Transactional
     @Test
     void testDeleteBeerByIdFound() {
-        BeerEntity beer = beerRepository.findAll().get(0);
+        Beer beer = beerRepository.findAll().get(0);
 
         ResponseEntity responseEntity = beerController.deleteBeerById(beer.getId());
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(204));
@@ -137,7 +137,7 @@ class BeerControllerIntegrationTest {
     @Transactional
     @Test
     void testUpdateExistingBeer() {
-        BeerEntity beer = beerRepository.findAll().get(0);
+        Beer beer = beerRepository.findAll().get(0);
         BeerDTO beerDTO = beerMapper.beerEntityToBeerDto(beer);
         beerDTO.setId(null);
         beerDTO.setVersion(null);
@@ -148,7 +148,7 @@ class BeerControllerIntegrationTest {
         ResponseEntity responseEntity = beerController.updateBeerById(beer.getId(), beerDTO);
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(204));
 
-        BeerEntity updatedBeer = beerRepository.findById(beer.getId()).get();
+        Beer updatedBeer = beerRepository.findById(beer.getId()).get();
         assertThat(updatedBeer.getBeerName()).isEqualTo(beerName);
     }
 
@@ -168,13 +168,13 @@ class BeerControllerIntegrationTest {
         String[] locationUUID = responseEntity.getHeaders().getLocation().getPath().split("/");
         UUID savedUUID = UUID.fromString(locationUUID[4]);
 
-        BeerEntity beerEntity = beerRepository.findById(savedUUID).get();
-        assertThat(beerEntity).isNotNull();
+        Beer beer = beerRepository.findById(savedUUID).get();
+        assertThat(beer).isNotNull();
     }
 
     @Test
     void testGetBeerById() {
-        BeerEntity beer = beerRepository.findAll().get(0);
+        Beer beer = beerRepository.findAll().get(0);
 
         BeerDTO beerDTO = beerController.getBeerById(beer.getId());
 

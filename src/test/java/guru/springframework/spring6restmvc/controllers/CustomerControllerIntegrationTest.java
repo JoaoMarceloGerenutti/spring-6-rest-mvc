@@ -1,6 +1,6 @@
 package guru.springframework.spring6restmvc.controllers;
 
-import guru.springframework.spring6restmvc.entities.CustomerEntity;
+import guru.springframework.spring6restmvc.entities.Customer;
 import guru.springframework.spring6restmvc.exceptions.NotFoundException;
 import guru.springframework.spring6restmvc.mappers.CustomerMapper;
 import guru.springframework.spring6restmvc.models.customers.CustomerDTO;
@@ -44,7 +44,7 @@ class CustomerControllerIntegrationTest {
     @Transactional
     @Test
     void testPatchExistingCustomer() {
-        CustomerEntity customer = customerRepository.findAll().get(0);
+        Customer customer = customerRepository.findAll().get(0);
         CustomerDTO customerDTO = customerMapper.customerEntityToCustomerDto(customer);
         customerDTO.setId(null);
         customerDTO.setVersion(null);
@@ -55,7 +55,7 @@ class CustomerControllerIntegrationTest {
         ResponseEntity responseEntity = customerController.patchCustomerById(customer.getId(), customerDTO);
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(204));
 
-        CustomerEntity updatedCustomer = customerRepository.findById(customer.getId()).get();
+        Customer updatedCustomer = customerRepository.findById(customer.getId()).get();
         assertThat(updatedCustomer.getName()).isEqualTo(customerName);
     }
 
@@ -72,7 +72,7 @@ class CustomerControllerIntegrationTest {
     @Transactional
     @Test
     void testDeleteCustomerByIdFound() {
-        CustomerEntity customer = customerRepository.findAll().get(0);
+        Customer customer = customerRepository.findAll().get(0);
 
         ResponseEntity responseEntity = customerController.deleteCustomerById(customer.getId());
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(204));
@@ -93,7 +93,7 @@ class CustomerControllerIntegrationTest {
     @Transactional
     @Test
     void testUpdateExistingCustomer() {
-        CustomerEntity customer = customerRepository.findAll().get(0);
+        Customer customer = customerRepository.findAll().get(0);
         CustomerDTO customerDTO = customerMapper.customerEntityToCustomerDto(customer);
         customerDTO.setId(null);
         customerDTO.setVersion(null);
@@ -104,7 +104,7 @@ class CustomerControllerIntegrationTest {
         ResponseEntity responseEntity = customerController.updateCustomerById(customer.getId(), customerDTO);
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(204));
 
-        CustomerEntity updatedCustomer = customerRepository.findById(customer.getId()).get();
+        Customer updatedCustomer = customerRepository.findById(customer.getId()).get();
         assertThat(updatedCustomer.getName()).isEqualTo(customerName);
     }
 
@@ -124,13 +124,13 @@ class CustomerControllerIntegrationTest {
         String[] locationUUID = responseEntity.getHeaders().getLocation().getPath().split("/");
         UUID savedUUID = UUID.fromString(locationUUID[4]);
 
-        CustomerEntity customerEntity = customerRepository.findById(savedUUID).get();
-        assertThat(customerEntity).isNotNull();
+        Customer customer = customerRepository.findById(savedUUID).get();
+        assertThat(customer).isNotNull();
     }
 
     @Test
     void testGetCustomerById() {
-        CustomerEntity customer = customerRepository.findAll().get(0);
+        Customer customer = customerRepository.findAll().get(0);
 
         CustomerDTO customerDTO = customerController.getCustomerById(customer.getId());
 
