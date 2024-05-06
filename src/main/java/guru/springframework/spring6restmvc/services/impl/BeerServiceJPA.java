@@ -9,7 +9,6 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -32,7 +31,7 @@ public class BeerServiceJPA implements BeerService {
     }
 
     @Override
-    public List<BeerDTO> listAllBeers() {
+    public List<BeerDTO> listAllBeers(String beerName) {
         return beerRepository.findAll()
                 .stream()
                 .map(beerMapper::beerEntityToBeerDto)
