@@ -1,6 +1,7 @@
 package guru.springframework.spring6restmvc.services;
 
 import guru.springframework.spring6restmvc.models.beers.BeerDTO;
+import guru.springframework.spring6restmvc.models.beers.BeerStyle;
 
 import java.util.List;
 import java.util.Optional;
@@ -10,7 +11,7 @@ public interface BeerService {
 
     Optional<BeerDTO>  getBeerById(UUID id);
 
-    List<BeerDTO> listAllBeers(String beerName);
+    List<BeerDTO> listAllBeers(String beerName, BeerStyle beerStyle, Boolean showInventory);
 
     BeerDTO saveNewBeer(BeerDTO beer);
 
