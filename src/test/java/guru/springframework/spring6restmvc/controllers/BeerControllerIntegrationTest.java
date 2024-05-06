@@ -200,7 +200,7 @@ class BeerControllerIntegrationTest {
 
     @Test
     void testListAllBeers() {
-        List<BeerDTO> beerDTOS = beerController.getAllBeers();
+        List<BeerDTO> beerDTOS = beerController.getAllBeers(null);
 
         assertThat(beerDTOS.size()).isEqualTo(2413);
     }
@@ -210,7 +210,7 @@ class BeerControllerIntegrationTest {
     @Test
     void testEmptyBeerList() {
         beerRepository.deleteAll();
-        List<BeerDTO> beerDTOS = beerController.getAllBeers();
+        List<BeerDTO> beerDTOS = beerController.getAllBeers(null);
 
         assertThat(beerDTOS.size()).isEqualTo(0);
     }
