@@ -2,6 +2,7 @@ package guru.springframework.spring6restmvc.controllers;
 
 import guru.springframework.spring6restmvc.exceptions.NotFoundException;
 import guru.springframework.spring6restmvc.models.beers.BeerDTO;
+import guru.springframework.spring6restmvc.models.beers.BeerStyle;
 import guru.springframework.spring6restmvc.services.BeerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -69,9 +70,11 @@ public class BeerController {
     }
 
     @GetMapping(BEER_PATH)
-    public List<BeerDTO> getAllBeers(@RequestParam(required = false) String beerName) {
+    public List<BeerDTO> getAllBeers(@RequestParam(required = false) String beerName,
+                                     @RequestParam(required = false) BeerStyle beerStyle,
+                                     @RequestParam(required = false) Boolean showInventory) {
         log.debug("Get Beer List - in controller");
-        return beerService.listAllBeers(beerName);
+        return beerService.listAllBeers(beerName, beerStyle, showInventory);
     }
 
     @GetMapping(BEER_PATH_ID)

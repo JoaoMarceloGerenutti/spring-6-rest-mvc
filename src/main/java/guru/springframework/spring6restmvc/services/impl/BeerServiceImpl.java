@@ -62,7 +62,7 @@ public class BeerServiceImpl implements BeerService {
     }
 
     @Override
-    public List<BeerDTO> listAllBeers(String beerName){
+    public List<BeerDTO> listAllBeers(String beerName, BeerStyle beerStyle, Boolean showInventory){
         log.debug("Get Beer List - in service.");
         return new ArrayList<>(beerMap.values());
     }
